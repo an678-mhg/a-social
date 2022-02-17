@@ -9,7 +9,7 @@ export const getProfile = async (uid) => {
     const docSnap = await getDoc(userRef);
 
     if (docSnap.exists()) {
-      return docSnap.data();
+      return { ...docSnap.data(), id: docSnap.id };
     } else {
       console.log("user ko ton tai !");
     }

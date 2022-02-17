@@ -7,8 +7,11 @@ import {
 } from "react-router-dom";
 import { fetchPost } from "../action/postAction";
 import CommentLIst from "../components/CommentLIst";
-// import { db } from "../config/firebase";
+import { db } from "../config/firebase";
 import userState from "../stored/userState";
+import { fetchComments } from "../action/postAction";
+import { updateDoc, doc } from "firebase/firestore";
+import { createDoc } from "../action/firebaseAction";
 
 const DetailPost = () => {
   const { id } = useParams();
@@ -17,8 +20,9 @@ const DetailPost = () => {
   const [postDetails, setPostDetails] = useState({});
   const curentUser = userState((state) => state.curentUser);
   const [loading, setLoading] = useState(false);
-  // const [loadingComment, setLoadingComment] = useState(false);
+  const [loadingComment, setLoadingComment] = useState(false);
   const [comment, setComment] = useState("");
+  const [commentList, setCommentList] = useState([]);
 
   useEffect(() => {
     async function getDetailsPost() {
@@ -36,6 +40,15 @@ const DetailPost = () => {
     getDetailsPost();
   }, [id]);
 
+  useEffect(() => {
+    async function getComment(id) {
+      const data = await fetchComments(id);
+      setCommentList(data);
+    }
+
+    getComment(id);
+  }, [id]);
+
   const navigate = useNavigate();
 
   if (!curentUser)
@@ -45,36 +58,44 @@ const DetailPost = () => {
       />
     );
 
-  // const handleAddComment = async (e) => {
-  //   e.preventDefault();
+  const handleAddComment = async (e) => {
+    e.preventDefault();
 
-  //   if (!comment.trim()) return;
+    // check value comment trước khi post
+    if (!comment.trim()) return;
 
-  //   setLoadingComment(true);
+    setLoadingComment(true);
 
-  //   const newComment = {
-  //     postId: postDetails.id,
-  //     photoURL: curentUser.photoURL,
-  //     content: comment,
-  //     displayName: curentUser.displayName,
-  //     userId: curentUser.uid,
-  //   };
+    // Khởi tạo obj new comment
+    const newComment = {
+      postId: postDetails.id,
+      photoURL: curentUser.photoURL,
+      content: comment,
+      displayName: curentUser.displayName,
+      userId: curentUser.uid,
+    };
 
-  //   try {
-  //     const res = await createDoc("comments", newComment);
-  //     console.log(res);
+    try {
+      // thêm comment vào db
+      const res = await createDoc("comments", newComment);
 
-  //     await updateDoc(doc(db, `posts/${id}`), {
-  //       comment: postDetails.comment + 1,
-  //     });
+      // cập nhật lại tổng comment ở bảng posts
+      updateDoc(doc(db, `posts/${id}`), {
+        comment: postDetails.comment + 1,
+      });
 
-  //     setComment("");
-  //     setLoadingComment(false);
-  //   } catch (error) {
-  //     console.log(error);
-  //     setLoadingComment(false);
-  //   }
-  // };
+      // cập nhật lại tổng comment của post ở ui
+      setPostDetails({ ...postDetails, comment: postDetails.comment + 1 });
+
+      // reset form comment
+      setCommentList([...commentList, res]);
+      setComment("");
+
+      setLoadingComment(false);
+    } catch (error) {
+      setLoadingComment(false);
+    }
+  };
 
   if (loading)
     return (
@@ -124,7 +145,10 @@ const DetailPost = () => {
           <p className="text-sm">{postDetails?.title}</p>
         </div>
 
-        <div className="bg-white py-3 px-4 flex items-center bottom-0 fixed left-0 w-full">
+        <form
+          onSubmit={handleAddComment}
+          className="bg-white py-3 px-4 flex items-center bottom-0 fixed left-0 w-full"
+        >
           <img
             className="w-[40px] rounded-full object-cover"
             src={curentUser?.photoURL}
@@ -138,16 +162,16 @@ const DetailPost = () => {
             onChange={(e) => setComment(e.target.value)}
           />
           <button className="ml-3">
-            {/* {loadingComment ? (
+            {loadingComment ? (
               <h3 className="text-xs text-slate-400">Loading...</h3>
             ) : (
               <i className="text-slate-400 text-2xl bx bx-send"></i>
-            )} */}
+            )}
           </button>
-        </div>
+        </form>
       </>
 
-      <CommentLIst />
+      <CommentLIst commentList={commentList} />
     </div>
   );
 };

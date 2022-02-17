@@ -9,9 +9,12 @@ import { toast } from "react-toastify";
 import { db } from "../config/firebase";
 
 export const createDoc = async (table, data) => {
-  const docRef = await addDoc(collection(db, table), data);
-
-  return { ...data, id: docRef.id };
+  try {
+    const docRef = await addDoc(collection(db, table), data);
+    return { ...data, id: docRef.id };
+  } catch (error) {
+    toast.error(error.message);
+  }
 };
 
 export const fetchAllPosts = async (sort) => {

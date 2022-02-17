@@ -19,7 +19,7 @@ const Profile = () => {
     }
 
     fetchProfile(id);
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     async function getMyPost(uid) {
@@ -28,7 +28,7 @@ const Profile = () => {
     }
 
     getMyPost(id);
-  }, []);
+  }, [id]);
 
   return (
     <>

@@ -24,7 +24,7 @@ const PostItem = ({ data }) => {
     <div className="mb-4 px-4 py-3 bg-white">
       <div>
         <div className="flex items-center justify-between">
-          <div className="flex items-center">
+          <Link to={`/profile/${data.userId}`} className="flex items-center">
             <img
               className="w-[30px] object-cover rounded-full"
               alt=""
@@ -37,7 +37,7 @@ const PostItem = ({ data }) => {
                 {calculateCreatedTime(data.create_at)}
               </p>
             </div>
-          </div>
+          </Link>
 
           {currentUser.uid === data.userId ? (
             <div onClick={() => handleDeletePost(data.id)}>

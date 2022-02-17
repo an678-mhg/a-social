@@ -18,7 +18,7 @@ export const fetchPost = async (idPost) => {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      return docSnap.data();
+      return { ...docSnap.data(), id: docSnap.id };
     } else {
       console.log("Post ko ton tai !!!");
     }
@@ -54,6 +54,24 @@ export const fetchMyPost = async (uid) => {
     });
 
     return postList;
+  } catch (error) {
+    toast.error(error.message);
+    console.log(error);
+  }
+};
+
+export const fetchComments = async (postId) => {
+  try {
+    const q = query(collection(db, "comments"), where("postId", "==", postId));
+    const commentList = [];
+
+    const querySnap = await getDocs(q);
+
+    querySnap.forEach((doc) => {
+      commentList.push({ ...doc.data(), id: doc.id });
+    });
+
+    return commentList;
   } catch (error) {
     toast.error(error.message);
     console.log(error);
