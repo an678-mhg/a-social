@@ -1,10 +1,41 @@
 import { doc, setDoc, updateDoc } from "firebase/firestore";
-import React from "react";
+import React, { useState } from "react";
 import { db } from "../config/firebase";
 import useStore from "../stored/userState";
+import { query, collection, where, getDocs, addDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
+import Loading from "../global/Loading";
 
 const ProfileTop = ({ profile, setProfile, setShowModal }) => {
   const currentUser = useStore((state) => state.curentUser);
+  const navigate = useNavigate();
+
+  const [loading, setLoading] = useState(false);
+
+  const handleCreateChatRooms = async (uid, userChat) => {
+    setLoading(true);
+
+    const q = query(
+      collection(db, "rooms"),
+      where("members", "==", [uid, userChat])
+    );
+
+    const querySnap = await getDocs(q);
+
+    if (querySnap.empty) {
+      const res = await addDoc(collection(db, "rooms"), {
+        members: [uid, userChat],
+        lastMessage: "",
+        create_at: Date.now(),
+      });
+
+      navigate(`/room/${res.id}`);
+      setLoading(false);
+    } else {
+      navigate(`/room/${querySnap.docs[0].id}`);
+      setLoading(false);
+    }
+  };
 
   const handleFollowUser = async () => {
     try {
@@ -67,7 +98,12 @@ const ProfileTop = ({ profile, setProfile, setShowModal }) => {
                   ? "Followed"
                   : "Follow"}
               </button>
-              <button className="text-md font-semibold bg-black py-2 px-4 mb-3 rounded-sm text-white">
+              <button
+                className="text-md font-semibold bg-black py-2 px-4 mb-3 rounded-sm text-white"
+                onClick={() =>
+                  handleCreateChatRooms(currentUser.uid, profile.id)
+                }
+              >
                 <i className="bx bx-chat text-md"></i>
               </button>
             </>
@@ -78,6 +114,8 @@ const ProfileTop = ({ profile, setProfile, setShowModal }) => {
           {profile.bio || "This is description profile person !"}
         </p>
       </div>
+
+      {loading && <Loading />}
     </div>
   );
 };

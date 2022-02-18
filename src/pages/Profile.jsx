@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { fetchMyPost } from "../action/postAction";
 import { getProfile } from "../action/profileAction";
 import ModalEditProFile from "../components/ModalEditProFile";
 import PostList from "../components/PostList";
 import ProfileBottom from "../components/ProfileBottom";
 import ProfileTop from "../components/ProfileTop";
+import Title from "../components/Title";
 import PageNotFound from "./PageNotFound";
 
 const Profile = () => {
@@ -37,6 +38,7 @@ const Profile = () => {
 
   return (
     <>
+      <Title title={profile.displayName} />
       <div className="mt-4 bg-white py-6">
         <ProfileTop
           setShowModal={setShowModal}

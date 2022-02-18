@@ -4,7 +4,7 @@ import Title from "../components/Title";
 import NavigateApp from "../components/NavigateApp";
 import { Route, Routes } from "react-router-dom";
 import Content from "../components/Content";
-import News from "./News";
+import Chat from "./Chat";
 import Profile from "./Profile";
 import EditPost from "./EditPost";
 const Home = () => {
@@ -16,7 +16,7 @@ const Home = () => {
 
       <Routes>
         <Route path="/" element={<Content />} />
-        <Route path="news" element={<News />} />
+        <Route path="chat" element={<Chat />} />
         <Route path="profile/:id" element={<Profile />} />
         <Route path="edit/:id" element={<EditPost />} />
       </Routes>

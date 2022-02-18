@@ -11,10 +11,14 @@ import PrivateRoute from "./components/PrivateRoute";
 import { fetchAllPosts } from "./action/firebaseAction";
 import DetailPost from "./pages/DetailPost";
 import ForgotPassword from "./pages/ForgotPassword";
+import useInnerWidth from "./hook/useInnerWidth";
+import RoomChat from "./pages/RoomChat";
 
 function App() {
   const { setUser } = userState((state) => state);
   const { setPosts, sort } = postState((state) => state);
+
+  const width = useInnerWidth();
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (user) => {
@@ -33,6 +37,13 @@ function App() {
     };
   }, [sort]);
 
+  if (width > 500)
+    return (
+      <div className="h-screen flex justify-center items-center">
+        Devices with width greater than 500px. are not supported !
+      </div>
+    );
+
   return (
     <div className="app bg-slate-300 h-screen">
       <Routes>
@@ -48,6 +59,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgot_password" element={<ForgotPassword />} />
+        <Route path="/room/:id" element={<RoomChat />} />
         <Route path="*" />
       </Routes>
     </div>

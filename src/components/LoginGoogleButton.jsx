@@ -21,7 +21,6 @@ const LoginGoogleButton = () => {
         email,
         photoURL,
         following: [],
-        follower: [],
       });
     }
 

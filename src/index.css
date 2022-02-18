@@ -16,8 +16,6 @@ body {
 }
 
 #root {
-  width: 600px;
-  max-width: 100%;
   margin: auto;
   background-color: #fff;
   height: 100vh;
@@ -25,6 +23,8 @@ body {
 
 .app {
   overflow: hidden;
+  width: 500px;
+  max-width: 100%;
   overflow-y: scroll;
   position: relative;
 }
@@ -40,4 +40,38 @@ body {
 
 .modal-edit-profile {
   background-color: rgba(0, 0, 0, 0.473);
+}
+
+.arrow-left {
+  position: relative;
+}
+
+.arrow-left::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+
+  border-right: 8px solid white;
+  left: -7px;
+  bottom: 3px;
+}
+
+.arrow-right {
+  position: relative;
+}
+
+.arrow-right::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+
+  border-left: 8px solid #60a5fa;
+  right: -7px;
+  bottom: 3px;
 }

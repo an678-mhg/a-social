@@ -17,9 +17,9 @@ const NavigateApp = () => {
       <NavLink
         activeclassname="active"
         className="text-slate-400 block flex-1 text-center"
-        to="/news"
+        to="/chat"
       >
-        <i className="text-2xl bx bx-news"></i>
+        <i className="text-2xl bx bx-chat"></i>
       </NavLink>
       <NavLink
         activeclassname="active"

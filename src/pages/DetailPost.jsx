@@ -14,6 +14,7 @@ import { updateDoc, doc } from "firebase/firestore";
 import { createDoc } from "../action/firebaseAction";
 import { getProfile } from "../action/profileAction";
 import PageNotFound from "./PageNotFound";
+import Title from "../components/Title";
 
 const DetailPost = () => {
   const { id } = useParams();
@@ -117,6 +118,7 @@ const DetailPost = () => {
 
   return (
     <div>
+      <Title title={"Post " + id} />
       <>
         <div>
           <div className="px-4 py-2 fixed top-0 bg-slate-800 w-full opacity-[0.5]">

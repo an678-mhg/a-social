@@ -35,7 +35,6 @@ const RegisterForm = () => {
         email,
         photoURL,
         following: [],
-        follower: [],
       });
 
       setLoading(false);
