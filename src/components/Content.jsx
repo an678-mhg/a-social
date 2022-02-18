@@ -5,12 +5,12 @@ import postState from "../stored/postState";
 // import SortPost from "./SortPost";
 
 const Content = () => {
-  const posts = postState((state) => state.posts);
+  const { posts, setPosts } = postState((state) => state);
 
   return (
     <>
       <FormCreatePost />
-      <PostList posts={posts} />
+      <PostList posts={posts} setPosts={setPosts} />
     </>
   );
 };

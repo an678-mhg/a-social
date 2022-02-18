@@ -1,6 +1,7 @@
 import { signOut } from "firebase/auth";
 import React from "react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { auth } from "../config/firebase";
 import userState from "../stored/userState";
 
@@ -15,9 +16,9 @@ const Header = () => {
 
   return (
     <div className="pt-4 pb-2 flex items-center justify-between">
-      <div className="flex items-center text-slate-400">
+      <Link to="/" className="flex items-center text-slate-400">
         <i className="text-2xl mr-2 text-slate-400 bx bx-bug-alt"></i> ASocial
-      </div>
+      </Link>
       <div
         className="bg-slate-400 text-white flex items-center justify-between px-1 py-1 rounded-full relative"
         onClick={() => setShowLogout(!showLogout)}

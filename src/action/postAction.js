@@ -20,7 +20,7 @@ export const fetchPost = async (idPost) => {
     if (docSnap.exists()) {
       return { ...docSnap.data(), id: docSnap.id };
     } else {
-      console.log("Post ko ton tai !!!");
+      return null;
     }
   } catch (error) {
     toast.error(error.message);

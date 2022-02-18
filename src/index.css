@@ -27,23 +27,17 @@ body {
   overflow: hidden;
   overflow-y: scroll;
   position: relative;
-  animation: globalAnimation ease-in 0.3s;
 }
 
 .active {
   color: #fff !important;
 }
 
-@keyframes globalAnimation {
-  from {
-    transform: translateX(50%);
-  }
-  to {
-    transform: translateX(0%);
-  }
-}
-
 /* width */
 ::-webkit-scrollbar {
   display: none;
+}
+
+.modal-edit-profile {
+  background-color: rgba(0, 0, 0, 0.473);
 }

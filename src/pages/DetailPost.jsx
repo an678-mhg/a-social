@@ -12,6 +12,8 @@ import userState from "../stored/userState";
 import { fetchComments } from "../action/postAction";
 import { updateDoc, doc } from "firebase/firestore";
 import { createDoc } from "../action/firebaseAction";
+import { getProfile } from "../action/profileAction";
+import PageNotFound from "./PageNotFound";
 
 const DetailPost = () => {
   const { id } = useParams();
@@ -23,6 +25,7 @@ const DetailPost = () => {
   const [loadingComment, setLoadingComment] = useState(false);
   const [comment, setComment] = useState("");
   const [commentList, setCommentList] = useState([]);
+  const [userInfo, setUserInfo] = useState({});
 
   useEffect(() => {
     async function getDetailsPost() {
@@ -41,6 +44,15 @@ const DetailPost = () => {
   }, [id]);
 
   useEffect(() => {
+    async function fetchProfile(uid) {
+      const profile = await getProfile(uid);
+      setUserInfo(profile);
+    }
+
+    fetchProfile(postDetails.userId);
+  }, [postDetails.userId]);
+
+  useEffect(() => {
     async function getComment(id) {
       const data = await fetchComments(id);
       setCommentList(data);
@@ -50,13 +62,6 @@ const DetailPost = () => {
   }, [id]);
 
   const navigate = useNavigate();
-
-  if (!curentUser)
-    return (
-      <Navigate
-        to={`/login?redirect=${encodeURIComponent(location.pathname)}`}
-      />
-    );
 
   const handleAddComment = async (e) => {
     e.preventDefault();
@@ -69,10 +74,9 @@ const DetailPost = () => {
     // Khởi tạo obj new comment
     const newComment = {
       postId: postDetails.id,
-      photoURL: curentUser.photoURL,
       content: comment,
-      displayName: curentUser.displayName,
       userId: curentUser.uid,
+      create_at: Date.now(),
     };
 
     try {
@@ -96,6 +100,13 @@ const DetailPost = () => {
       setLoadingComment(false);
     }
   };
+
+  if (!curentUser)
+    return (
+      <Navigate
+        to={`/login?redirect=${encodeURIComponent(location.pathname)}`}
+      />
+    );
 
   if (loading)
     return (
@@ -121,11 +132,11 @@ const DetailPost = () => {
           <div className="w-full px-4 flex items-center justify-between pt-4">
             <div className="flex items-center">
               <img
-                src={postDetails?.photoURL}
+                src={userInfo?.photoURL}
                 className="w-[50px] rounded-full object-cover"
                 alt=""
               />
-              <p className="text-xl ml-3">{postDetails?.displayName}</p>
+              <p className="text-xl ml-3">{userInfo?.displayName}</p>
             </div>
             <div>
               <i
@@ -161,7 +172,7 @@ const DetailPost = () => {
             value={comment}
             onChange={(e) => setComment(e.target.value)}
           />
-          <button className="ml-3">
+          <button className="ml-3" disabled={loadingComment}>
             {loadingComment ? (
               <h3 className="text-xs text-slate-400">Loading...</h3>
             ) : (

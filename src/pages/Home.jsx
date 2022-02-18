@@ -6,6 +6,7 @@ import { Route, Routes } from "react-router-dom";
 import Content from "../components/Content";
 import News from "./News";
 import Profile from "./Profile";
+import EditPost from "./EditPost";
 const Home = () => {
   return (
     <div className="px-3 mb-[80px]">
@@ -17,6 +18,7 @@ const Home = () => {
         <Route path="/" element={<Content />} />
         <Route path="news" element={<News />} />
         <Route path="profile/:id" element={<Profile />} />
+        <Route path="edit/:id" element={<EditPost />} />
       </Routes>
     </div>
   );

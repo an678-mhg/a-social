@@ -2,12 +2,10 @@ import React from "react";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
 import userState from "../stored/userState";
-import postState from "../stored/postState";
 import { Link } from "react-router-dom";
 
-const ReactButton = ({ post }) => {
+const ReactButton = ({ post, posts, setPosts }) => {
   const currentUser = userState((state) => state.curentUser);
-  const { setPosts, posts } = postState((state) => state);
 
   const likePost = () => {
     const docRef = doc(db, `posts/${post.id}`);

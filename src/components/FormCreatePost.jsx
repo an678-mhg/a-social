@@ -42,8 +42,6 @@ const FormCreatePost = () => {
     // Tạo obj post data
     const newPost = {
       userId: curentUser.uid,
-      displayName: curentUser.displayName,
-      photoURL: curentUser.photoURL,
       title: title,
       image: url,
       like: [],
@@ -77,7 +75,7 @@ const FormCreatePost = () => {
           }`}
         />
         <input
-          className="ml-3 outline-none bg-transparent"
+          className="ml-3 outline-none bg-transparent w-full"
           type="text"
           placeholder="Write something..."
           value={title}
@@ -101,6 +99,7 @@ const FormCreatePost = () => {
         </div>
 
         <button
+          disabled={loading}
           className={`text-sm text-white py-2 px-6 bg-slate-400 ${
             loading ? "dashed-loading" : ""
           }`}

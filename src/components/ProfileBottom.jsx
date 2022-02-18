@@ -5,15 +5,15 @@ const ProfileBottom = ({ profile, totalPost }) => {
     <div className="flex px-3 pt-6 w-full justify-between items-center">
       <div className="flex items-center flex-col flex-1 ">
         <p>{profile.following && profile?.following.length}</p>
-        <p>following</p>
+        <p>Follow</p>
       </div>
       <div className="flex items-center flex-col flex-1 ">
-        <p>{profile.follower && profile?.follower.length}</p>
-        <p>follower</p>
+        <p>0</p>
+        <p>Like</p>
       </div>
       <div className="flex items-center flex-col flex-1 ">
         <p>{totalPost}</p>
-        <p>post</p>
+        <p>Post</p>
       </div>
     </div>
   );

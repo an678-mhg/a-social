@@ -11,7 +11,7 @@ export const getProfile = async (uid) => {
     if (docSnap.exists()) {
       return { ...docSnap.data(), id: docSnap.id };
     } else {
-      console.log("user ko ton tai !");
+      return null;
     }
   } catch (error) {
     console.log(error);
