@@ -31,14 +31,14 @@ const RoomChat = () => {
     e.preventDefault();
     if (!mess.trim()) return;
 
-    await createDoc("messages", {
+    createDoc("messages", {
       rooms: id,
       userId: curentUser.uid,
       create_at: Date.now(),
       content: mess,
     });
 
-    await updateDoc(doc(db, `rooms/${id}`), {
+    updateDoc(doc(db, `rooms/${id}`), {
       lastMessage: mess,
     });
 
@@ -80,12 +80,18 @@ const RoomChat = () => {
       </div>
 
       <div className="pt-[100px] px-3">
-        {document.map((p) =>
-          p.userId === curentUser.uid ? (
-            <RightMess key={p.id} mess={p.content} />
-          ) : (
-            <LeftMess key={p.id} mess={p.content} />
+        {document.length > 0 ? (
+          document.map((p) =>
+            p.userId === curentUser.uid ? (
+              <RightMess key={p.id} mess={p.content} />
+            ) : (
+              <LeftMess key={p.id} mess={p.content} />
+            )
           )
+        ) : (
+          <div className="w-full text-white text-center">
+            No message recently
+          </div>
         )}
       </div>
 

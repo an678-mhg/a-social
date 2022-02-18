@@ -97,6 +97,9 @@ const DetailPost = () => {
       setComment("");
 
       setLoadingComment(false);
+      window.scrollTo({
+        bottom: 0,
+      });
     } catch (error) {
       setLoadingComment(false);
     }
