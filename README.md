@@ -4,8 +4,8 @@
 
 ### Preview:
 
-[!Preview1](https://res.cloudinary.com/annnn/image/upload/v1645258246/Screenshot_2022-02-19_150936_ev2hlx.png)
-[!Preview2](https://res.cloudinary.com/annnn/image/upload/v1645258251/Screenshot_2022-02-19_150856_m8mrdl.png)
+![Preview 1](https://res.cloudinary.com/annnn/image/upload/v1645258246/Screenshot_2022-02-19_150936_ev2hlx.png)
+![Preview 2](https://res.cloudinary.com/annnn/image/upload/v1645258251/Screenshot_2022-02-19_150856_m8mrdl.png)
 
 ### Features:
 
