@@ -53,7 +53,7 @@ const Header = () => {
           style={{ backgroundColor: theme.bg_post }}
         >
           <i
-            class={`${
+            className={`${
               theme.bg_color === "#333"
                 ? "bx bx-sun text-[#e74c3c]"
                 : "bx bx-moon text-black"
