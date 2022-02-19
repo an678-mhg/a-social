@@ -15,6 +15,7 @@ import { createDoc } from "../action/firebaseAction";
 import { getProfile } from "../action/profileAction";
 import Title from "../components/Title";
 import Loading from "../global/Loading";
+import themeStore from "../stored/themeStore";
 
 const DetailPost = () => {
   const { id } = useParams();
@@ -27,6 +28,7 @@ const DetailPost = () => {
   const [comment, setComment] = useState("");
   const [commentList, setCommentList] = useState([]);
   const [userInfo, setUserInfo] = useState({});
+  const theme = themeStore((state) => state.theme);
 
   useEffect(() => {
     async function getDetailsPost() {
@@ -120,10 +122,10 @@ const DetailPost = () => {
     <div>
       <Title title={"Post " + id} />
       <>
-        <div>
-          <div className="px-4 py-2 fixed top-0 bg-slate-800 w-full opacity-[0.5]">
+        <div style={{ color: theme.text_color }}>
+          <div className="px-4 py-2 fixed top-0 w-full opacity-[0.5]">
             <button onClick={() => navigate("/")}>
-              <i className="text-2xl text-white bx bx-arrow-back"></i>
+              <i className="text-2xl bx bx-arrow-back"></i>
             </button>
           </div>
           <img
@@ -154,13 +156,17 @@ const DetailPost = () => {
           </div>
         </div>
 
-        <div className="px-4 py-4">
+        <div className="px-4 py-4" style={{ color: theme.text_color }}>
           <p className="text-sm">{postDetails?.title}</p>
         </div>
 
         <form
+          style={{
+            backgroundColor: theme.bg_post,
+            color: theme.text_color,
+          }}
           onSubmit={handleAddComment}
-          className="bg-white py-3 px-4 flex items-center bottom-0 fixed left-0 w-full"
+          className="py-3 px-4 flex items-center bottom-0 fixed left-0 w-full"
         >
           <img
             className="w-[40px] rounded-full object-cover"
@@ -168,17 +174,24 @@ const DetailPost = () => {
             alt=""
           />
           <input
+            style={{
+              backgroundColor: theme.bg_post,
+              color: theme.text_color,
+            }}
             placeholder="Write comment here..."
-            className="rounded-full w-[80%] ml-4 px-6 py-1 bg-slate-300 outline-none"
+            className="rounded-full w-[80%] ml-4 px-6 py-1 outline-none"
             type={"text"}
             value={comment}
             onChange={(e) => setComment(e.target.value)}
           />
           <button className="ml-3" disabled={loadingComment}>
             {loadingComment ? (
-              <h3 className="text-xs text-slate-400">Loading...</h3>
+              <h3 className="text-xs">Loading...</h3>
             ) : (
-              <i className="text-slate-400 text-2xl bx bx-send"></i>
+              <i
+                className="text-2xl bx bx-send"
+                style={{ color: theme.text_color }}
+              ></i>
             )}
           </button>
         </form>

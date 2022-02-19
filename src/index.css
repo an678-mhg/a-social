@@ -11,10 +11,6 @@
   font-family: "Inter", sans-serif;
 }
 
-body {
-  background-color: #555;
-}
-
 #root {
   margin: auto;
   background-color: #fff;
@@ -30,7 +26,7 @@ body {
 }
 
 .active {
-  color: #fff !important;
+  color: #2980b9 !important;
 }
 
 /* width */

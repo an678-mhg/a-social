@@ -6,6 +6,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useEffect } from "react";
 import userState from "./stored/userState";
 import postState from "./stored/postState";
+import themeStore from "./stored/themeStore";
 import { auth } from "./config/firebase";
 import PrivateRoute from "./components/PrivateRoute";
 import { fetchAllPosts } from "./action/firebaseAction";
@@ -17,6 +18,7 @@ import RoomChat from "./pages/RoomChat";
 function App() {
   const { setUser } = userState((state) => state);
   const { setPosts, sort } = postState((state) => state);
+  const { theme } = themeStore((state) => state);
   const location = useLocation();
 
   const width = useInnerWidth();
@@ -50,7 +52,7 @@ function App() {
     );
 
   return (
-    <div className="app bg-slate-300 h-screen">
+    <div className={`app h-screen`} style={{ backgroundColor: theme.bg_color }}>
       <Routes>
         <Route
           path="/*"

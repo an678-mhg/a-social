@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { loginApi } from "../action/authAction";
 import Loading from "../global/Loading";
+import themeStore from "../stored/themeStore";
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +12,7 @@ const LoginForm = () => {
 
   const [loading, setLoading] = useState(false);
   const [showPass, setShowPass] = useState(false);
+  const theme = themeStore((state) => state.theme);
 
   const submitForm = async (e) => {
     e.preventDefault();
@@ -67,7 +69,13 @@ const LoginForm = () => {
       >
         Forgot your password?
       </Link>
-      <button className="py-2 rounded-sm mt-6 w-full text-white text-xl font-medium bg-slate-400">
+      <button
+        className="py-2 rounded-sm mt-6 w-full text-xl font-medium"
+        style={{
+          backgroundColor: theme.bg_post,
+          color: theme.text_color,
+        }}
+      >
         Login
       </button>
 

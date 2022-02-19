@@ -4,11 +4,13 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { db } from "../config/firebase";
 import userState from "../stored/userState";
+import themeStore from "../stored/themeStore";
 
 const ModalEditProFile = ({ profile, setProfile, setShowModal }) => {
   const [data, setData] = useState(profile);
   const [loading, setLoading] = useState(false);
   const { curentUser, setUser } = userState((state) => state);
+  const theme = themeStore((state) => state.theme);
 
   const changeProfile = async (e) => {
     e.preventDefault();
@@ -51,7 +53,11 @@ const ModalEditProFile = ({ profile, setProfile, setShowModal }) => {
       onClick={() => setShowModal(false)}
     >
       <div
-        className="bg-white opacity-100 w-full pb-6 max-w-[100%]"
+        style={{
+          backgroundColor: theme.bg_post,
+          color: theme.text_color,
+        }}
+        className="opacity-100 w-full pb-6 max-w-[100%]"
         onClick={(e) => e.stopPropagation()}
       >
         <form onSubmit={changeProfile} className="px-3">
@@ -66,7 +72,11 @@ const ModalEditProFile = ({ profile, setProfile, setShowModal }) => {
                 setData({ ...data, [e.target.name]: e.target.value })
               }
               name="displayName"
-              className="w-full bg-gray-400 rounded-sm p-2 text-white"
+              className="w-full rounded-sm p-2"
+              style={{
+                backgroundColor: theme.bg_color,
+                color: theme.text_color,
+              }}
             />
           </div>
           <div className="w-full mt-4">
@@ -78,13 +88,21 @@ const ModalEditProFile = ({ profile, setProfile, setShowModal }) => {
                 setData({ ...data, [e.target.name]: e.target.value })
               }
               name="bio"
-              className="w-full bg-gray-400 rounded-sm p-2 text-white"
+              className="w-full rounded-sm p-2"
+              style={{
+                backgroundColor: theme.bg_color,
+                color: theme.text_color,
+              }}
             />
           </div>
           <div className="w-full text-center">
             <button
               disabled={loading}
-              className="bg-slate-400 text-white px-3 py-1 rounded-sm text-md mt-3"
+              className="px-3 py-1 rounded-sm text-md mt-3"
+              style={{
+                backgroundColor: theme.bg_color,
+                color: theme.text_color,
+              }}
             >
               {loading ? "Loading..." : "Updated profile"}
             </button>

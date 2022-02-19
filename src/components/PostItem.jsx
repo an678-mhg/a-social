@@ -5,18 +5,23 @@ import userState from "../stored/userState";
 import { deletePost } from "../action/postAction";
 import { calculateCreatedTime } from "../utils/formatTime";
 import { getProfile } from "../action/profileAction";
+import themeStore from "../stored/themeStore";
 
 const PostItem = ({ data, posts, setPosts }) => {
   const currentUser = userState((state) => state.curentUser);
   const [userInfo, setUserInfo] = useState({});
+  const [loadingUser, setLoadingUser] = useState(false);
+  const theme = themeStore((state) => state.theme);
   const location = useLocation();
 
   useEffect(() => {
     async function fetchProfile(uid) {
       const profile = await getProfile(uid);
       setUserInfo(profile);
+      setLoadingUser(false);
     }
 
+    setLoadingUser(true);
     fetchProfile(data.userId);
   }, []);
 
@@ -31,21 +36,39 @@ const PostItem = ({ data, posts, setPosts }) => {
   };
 
   return (
-    <div className="mb-4 px-4 py-3 bg-white">
+    <div
+      className="mb-4 px-4 py-3"
+      style={{ backgroundColor: theme.bg_post, color: theme.text_color }}
+    >
       <div>
         <div className="flex items-center justify-between">
           <Link to={`/profile/${data.userId}`} className="flex items-center">
-            <img
-              className="w-[30px] object-cover rounded-full"
-              alt=""
-              src={userInfo?.photoURL}
-            />
-            <div>
-              <p className="ml-3 text-sm">{userInfo?.displayName}</p>
+            <div
+              className={`w-[30px] h-[30px] overflow-hidden ${
+                loadingUser ? "skeleton" : ""
+              } rounded-full`}
+            >
+              <img
+                className="w-[100%] h-[100%] object-cover"
+                alt=""
+                src={userInfo?.photoURL}
+              />
+            </div>
+            <div className={`${loadingUser ? "w-[150px]" : ""} ml-3`}>
+              {loadingUser ? (
+                <>
+                  <p className="skeleton skeleton-text w-[50%]"></p>
+                  <p className="skeleton skeleton-text w-[80%]"></p>
+                </>
+              ) : (
+                <>
+                  <p className="text-sm">{userInfo?.displayName}</p>
 
-              <p className="ml-3 text-xs text-gray-500">
-                {calculateCreatedTime(data.create_at)}
-              </p>
+                  <p className="text-xs text-gray-500">
+                    {calculateCreatedTime(data.create_at)}
+                  </p>
+                </>
+              )}
             </div>
           </Link>
 
@@ -69,7 +92,8 @@ const PostItem = ({ data, posts, setPosts }) => {
         </div>
         <Link
           to={`/post/${data.id}`}
-          className="block py-4 text-slate-900 text-sm"
+          className="block py-4 text-sm"
+          style={{ color: theme.text_color }}
         >
           {data?.title.length > 100 ? (
             <>

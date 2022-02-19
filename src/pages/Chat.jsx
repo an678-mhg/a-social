@@ -4,9 +4,11 @@ import useFireStore from "../hook/useFireStore";
 import userState from "../stored/userState";
 import ChatItem from "../components/ChatItem";
 import ModalUser from "../components/ModalUser";
+import themeStore from "../stored/themeStore";
 
 const Chat = () => {
   const curentUser = userState((state) => state.curentUser);
+  const theme = themeStore((state) => state.theme);
 
   const [modal, setShowModal] = useState(false);
 
@@ -25,16 +27,22 @@ const Chat = () => {
     <div className="mt-5">
       <Title title={"Chat-App"} />
       {document.length === 0 ? (
-        <div className="bg-white p-3 text-center">No message recently</div>
+        <div
+          className="p-3 text-center"
+          style={{ backgroundColor: theme.bg_post, color: theme.text_color }}
+        >
+          No message recently
+        </div>
       ) : (
         document.map((p) => <ChatItem data={p} key={p.id} />)
       )}
 
       <div
+        style={{ backgroundColor: theme.bg_post, color: theme.text_color }}
         onClick={() => setShowModal(true)}
-        className="w-[60px] h-[60px] bg-white fixed bottom-[80px] right-[10px] rounded-full flex items-center justify-center text-2xl cursor-pointer"
+        className="w-[50px] h-[50px] fixed bottom-[80px] right-[14px] rounded-full flex items-center justify-center  cursor-pointer"
       >
-        +
+        <i class="text-2xl bx bx-plus"></i>
       </div>
 
       {modal && <ModalUser setShowModal={setShowModal} />}

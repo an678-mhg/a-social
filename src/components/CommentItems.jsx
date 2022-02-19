@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { calculateCreatedTime } from "../utils/formatTime";
 import { getProfile } from "../action/profileAction";
+import themeStore from "../stored/themeStore";
 
 const CommentItems = ({ p }) => {
+  const theme = themeStore((state) => state.theme);
   const [userInfo, setUserInfo] = useState();
 
   useEffect(() => {
@@ -15,7 +17,13 @@ const CommentItems = ({ p }) => {
   }, [p.userId]);
 
   return (
-    <div className="flex items-center bg-white p-3 rounded-md mb-4">
+    <div
+      className="flex items-center p-3 rounded-md mb-4"
+      style={{
+        backgroundColor: theme.bg_post,
+        color: theme.text_color,
+      }}
+    >
       <img
         alt=""
         src={userInfo?.photoURL}
@@ -24,7 +32,7 @@ const CommentItems = ({ p }) => {
       <div className="ml-4 overflow-auto">
         <div className="flex items-center">
           <p className="text-sm">{userInfo?.displayName}</p>
-          <p className="ml-3 text-xs text-gray-500">
+          <p className="ml-3 text-xs" style={{ color: theme.text_color }}>
             {calculateCreatedTime(p.create_at)}
           </p>
         </div>

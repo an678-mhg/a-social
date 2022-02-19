@@ -1,8 +1,17 @@
 import React from "react";
+import themeStore from "../stored/themeStore";
 
 const ProfileBottom = ({ profile, totalPost }) => {
+  const theme = themeStore((state) => state.theme);
+
   return (
-    <div className="flex px-3 pt-6 w-full justify-between items-center">
+    <div
+      className="flex px-3 pt-6 w-full justify-between items-center"
+      style={{
+        backgroundColor: theme.bg_post,
+        color: theme.text_color,
+      }}
+    >
       <div className="flex items-center flex-col flex-1 ">
         <p>{profile.following && profile?.following.length}</p>
         <p>Follow</p>

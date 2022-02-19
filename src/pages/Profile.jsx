@@ -9,6 +9,7 @@ import ProfileTop from "../components/ProfileTop";
 import Title from "../components/Title";
 import Loading from "../global/Loading";
 import PageNotFound from "./PageNotFound";
+import themeStore from "../stored/themeStore";
 
 const Profile = () => {
   const { id } = useParams();
@@ -17,6 +18,7 @@ const Profile = () => {
   const [myPost, setMyPost] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const theme = themeStore((state) => state.theme);
 
   useEffect(() => {
     async function fetchProfile(id) {
@@ -43,7 +45,7 @@ const Profile = () => {
   return (
     <>
       <Title title={profile.displayName} />
-      <div className="mt-4 bg-white py-6">
+      <div className="mt-4 py-6" style={{ backgroundColor: theme.bg_post }}>
         <ProfileTop
           setShowModal={setShowModal}
           profile={profile}

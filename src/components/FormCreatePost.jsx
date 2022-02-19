@@ -3,11 +3,13 @@ import { createDoc } from "../action/firebaseAction";
 import { uploadImage } from "../action/uploadAction";
 import userState from "../stored/userState";
 import postState from "../stored/postState";
+import themeStore from "../stored/themeStore";
 import { toast } from "react-toastify";
 
 const FormCreatePost = () => {
   const curentUser = userState((state) => state.curentUser);
   const { setPosts, posts } = postState((state) => state);
+  const theme = themeStore((state) => state.theme);
 
   const [title, setTitle] = useState("");
   const [file, setFile] = useState();
@@ -64,7 +66,11 @@ const FormCreatePost = () => {
   };
 
   return (
-    <form onSubmit={handleCreatePost} className="mt-6 bg-white">
+    <form
+      onSubmit={handleCreatePost}
+      className="mt-6"
+      style={{ backgroundColor: theme.bg_post, color: theme.text_color }}
+    >
       <div className="flex px-4 py-4">
         <img
           alt=""
@@ -86,8 +92,8 @@ const FormCreatePost = () => {
 
       <div className="border-t-2 px-4 py-4 flex items-center justify-between">
         <div>
-          <label htmlFor="file-upload">
-            <i className="text-2xl text-slate-400 bx bx-upload"></i>
+          <label htmlFor="file-upload" style={{ color: theme.text_color }}>
+            <i className="text-2xl bx bx-upload"></i>
           </label>
           <input
             accept="image/png, image/gif, image/jpeg"
@@ -99,10 +105,9 @@ const FormCreatePost = () => {
         </div>
 
         <button
+          style={{ backgroundColor: theme.bg_color, color: theme.text_color }}
           disabled={loading}
-          className={`text-sm text-white py-2 px-6 bg-slate-400 ${
-            loading ? "dashed-loading" : ""
-          }`}
+          className={`text-sm py-2 px-6 ${loading ? "dashed-loading" : ""}`}
         >
           {loading ? "" : "Post"}
         </button>

@@ -2,17 +2,20 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useUsersInfo } from "../hook/useUsersInfo";
 import userState from "../stored/userState";
+import themeStore from "../stored/themeStore";
 
 const ChatItem = ({ data }) => {
   const { users, loading } = useUsersInfo(data.members);
   const curentUser = userState((state) => state.curentUser);
+  const theme = themeStore((state) => state.theme);
 
   const userRender = users?.filter((p) => p.id !== curentUser.uid);
 
   return (
     <Link
       to={`/room/${data.id}`}
-      className="flex items-center rounded-sm bg-white p-3 mb-3"
+      className="flex items-center rounded-sm p-3 mb-3"
+      style={{ backgroundColor: theme.bg_post }}
     >
       <div
         className={`w-[40px] h-[40px] ${
@@ -33,10 +36,16 @@ const ChatItem = ({ data }) => {
           </>
         ) : (
           <>
-            <p className="text-md font-semibold">
+            <p
+              className="text-md font-semibold"
+              style={{ color: theme.text_color }}
+            >
               {userRender[0]?.displayName}
             </p>
-            <p className="text-sm font-medium text-gray-400 mt-2">
+            <p
+              className="text-sm font-medium mt-2"
+              style={{ color: theme.text_color }}
+            >
               {data.lastMessage && data.lastMessage.length > 30
                 ? data.lastMessage.slice(0, 30) + "..."
                 : data.lastMessage || "No message recently"}

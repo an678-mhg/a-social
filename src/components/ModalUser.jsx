@@ -3,12 +3,14 @@ import { fetchAllUsers } from "../action/userAction";
 import Loading from "../global/Loading";
 import UserItem from "./UserItem";
 import userState from "../stored/userState";
+import themeStore from "../stored/themeStore";
 
 const ModalUser = ({ setShowModal }) => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingRooms, setLoadingRooms] = useState(false);
   const currentUser = userState((state) => state.curentUser);
+  const theme = themeStore((state) => state.theme);
 
   useEffect(() => {
     async function getAllUser() {
@@ -27,7 +29,11 @@ const ModalUser = ({ setShowModal }) => {
       onClick={() => setShowModal(false)}
     >
       <div
-        className="bg-white w-[400px] h-[300px] flex flex-col items-center justify-center modal-users max-w-[100%] rounded-md"
+        style={{
+          backgroundColor: theme.bg_post,
+          color: theme.text_color,
+        }}
+        className="w-[400px] h-[300px] flex flex-col items-center justify-center modal-users max-w-[100%] rounded-md"
         onClick={(e) => e.stopPropagation()}
       >
         {loading ? (

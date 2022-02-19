@@ -5,9 +5,11 @@ import useStore from "../stored/userState";
 import { query, collection, where, getDocs, addDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import Loading from "../global/Loading";
+import themeStore from "../stored/themeStore";
 
 const ProfileTop = ({ profile, setProfile, setShowModal }) => {
   const currentUser = useStore((state) => state.curentUser);
+  const theme = themeStore((state) => state.theme);
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
@@ -39,7 +41,7 @@ const ProfileTop = ({ profile, setProfile, setShowModal }) => {
           (p) => p !== currentUser.uid
         );
 
-        await setDoc(doc(db, `users/${profile.id}`), {
+        setDoc(doc(db, `users/${profile.id}`), {
           ...profile,
           following: newProfile,
         });
@@ -47,7 +49,7 @@ const ProfileTop = ({ profile, setProfile, setShowModal }) => {
         setProfile({ ...profile, following: newProfile });
       } else {
         const newProfileFollowing = [...profile.following, currentUser.uid];
-        await updateDoc(doc(db, `users/${profile.id}`), {
+        updateDoc(doc(db, `users/${profile.id}`), {
           following: newProfileFollowing,
         });
         setProfile({ ...profile, following: newProfileFollowing });
@@ -59,8 +61,11 @@ const ProfileTop = ({ profile, setProfile, setShowModal }) => {
 
   return (
     <div>
-      <h1 className="text-center text-md text-slate-400 mb-3">
-        @{profile && profile?.displayName}
+      <h1
+        className="text-center text-md mb-3"
+        style={{ color: theme.text_color }}
+      >
+        {profile && profile?.email}
       </h1>
 
       <div className="flex flex-col items-center justify-center">
@@ -70,14 +75,20 @@ const ProfileTop = ({ profile, setProfile, setShowModal }) => {
           className="w-[80px] rounded-md object-cover"
         />
 
-        <p className="my-3 text-gray-500">{profile && profile?.displayName}</p>
+        <p className="my-3" style={{ color: theme.text_color }}>
+          {profile && profile?.displayName}
+        </p>
 
         <div>
           {currentUser.uid === profile.id ? (
             <>
               <button
+                style={{
+                  backgroundColor: theme.bg_color,
+                  color: theme.text_color,
+                }}
                 onClick={() => setShowModal(true)}
-                className="text-md font-semibold bg-black py-2 px-6 mb-3 rounded-sm text-white"
+                className="text-md font-semibold py-2 px-6 mb-3 rounded-sm"
               >
                 Edit profile
               </button>
@@ -85,7 +96,11 @@ const ProfileTop = ({ profile, setProfile, setShowModal }) => {
           ) : (
             <>
               <button
-                className="text-md font-semibold bg-slate-400 py-2 px-6 mb-3 rounded-sm"
+                style={{
+                  backgroundColor: theme.bg_color,
+                  color: theme.text_color,
+                }}
+                className="text-md font-semibold py-2 px-6 mb-3 rounded-sm"
                 onClick={handleFollowUser}
               >
                 {profile.following &&
@@ -94,7 +109,11 @@ const ProfileTop = ({ profile, setProfile, setShowModal }) => {
                   : "Follow"}
               </button>
               <button
-                className="text-md font-semibold bg-black py-2 px-4 mb-3 rounded-sm text-white"
+                style={{
+                  backgroundColor: theme.bg_color,
+                  color: theme.text_color,
+                }}
+                className="text-md font-semibold py-2 px-4 mb-3 rounded-sm ml-1 text-md"
                 onClick={() =>
                   handleCreateChatRooms(currentUser.uid, profile.id)
                 }
@@ -105,7 +124,7 @@ const ProfileTop = ({ profile, setProfile, setShowModal }) => {
           )}
         </div>
 
-        <p className="text-sm px-3">
+        <p className="text-sm px-3" style={{ color: theme.text_color }}>
           {profile.bio || "This is description profile person !"}
         </p>
       </div>
