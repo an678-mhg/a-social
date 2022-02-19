@@ -24,7 +24,7 @@ export const useUsersInfo = (usersId) => {
         setErr(false);
       }
 
-      getUserInforList(usersId || []);
+      getUserInforList(usersId);
     } catch (error) {
       console.log(error);
       setErr(true);

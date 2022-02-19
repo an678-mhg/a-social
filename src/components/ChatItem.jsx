@@ -42,14 +42,24 @@ const ChatItem = ({ data }) => {
             >
               {userRender[0]?.displayName}
             </p>
-            <p
-              className="text-sm font-medium mt-2"
-              style={{ color: theme.text_color }}
-            >
-              {data.lastMessage && data.lastMessage.length > 30
-                ? data.lastMessage.slice(0, 30) + "..."
-                : data.lastMessage || "No message recently"}
-            </p>
+            <div className="flex items-center">
+              {data.status === "new" && data.uid !== curentUser.uid ? (
+                <p
+                  className="text-xs font-medium mt-2 bg-red-500 mr-2 rounded-full w-[20px] h-[20px] flex items-center justify-center"
+                  style={{ color: theme.text_color }}
+                >
+                  01
+                </p>
+              ) : null}
+              <p
+                className="text-sm font-medium mt-2"
+                style={{ color: theme.text_color }}
+              >
+                {data.lastMessage && data.lastMessage.length > 30
+                  ? data.lastMessage.slice(0, 30) + "..."
+                  : data.lastMessage || "No message recently"}
+              </p>
+            </div>
           </>
         )}
       </div>

@@ -42,7 +42,7 @@ const Chat = () => {
         onClick={() => setShowModal(true)}
         className="w-[50px] h-[50px] fixed bottom-[80px] right-[14px] rounded-full flex items-center justify-center  cursor-pointer"
       >
-        <i class="text-2xl bx bx-plus"></i>
+        <i className="text-2xl bx bx-plus"></i>
       </div>
 
       {modal && <ModalUser setShowModal={setShowModal} />}

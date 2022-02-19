@@ -28,6 +28,12 @@ const RoomChat = () => {
     getRoomInfo(id);
   }, [id]);
 
+  useEffect(() => {
+    updateDoc(doc(db, `rooms/${id}`), {
+      status: "old",
+    });
+  }, []);
+
   const handleAddMessage = async (e) => {
     e.preventDefault();
     if (!mess.trim()) return;

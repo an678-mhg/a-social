@@ -4,7 +4,7 @@ import userState from "../stored/userState";
 import { Link } from "react-router-dom";
 
 const ChatHeader = ({ roomInfo }) => {
-  const { users } = useUsersInfo(roomInfo.members);
+  const { users } = useUsersInfo(roomInfo?.members);
 
   const curentUser = userState((state) => state.curentUser);
 
