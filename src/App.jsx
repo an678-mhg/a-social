@@ -1,9 +1,9 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import { onAuthStateChanged } from "firebase/auth";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import userState from "./stored/userState";
 import postState from "./stored/postState";
 import { auth } from "./config/firebase";
@@ -17,6 +17,7 @@ import RoomChat from "./pages/RoomChat";
 function App() {
   const { setUser } = userState((state) => state);
   const { setPosts, sort } = postState((state) => state);
+  const location = useLocation();
 
   const width = useInnerWidth();
 
@@ -36,6 +37,10 @@ function App() {
       unsub();
     };
   }, [sort]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.search, location.pathname]);
 
   if (width > 500)
     return (

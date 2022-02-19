@@ -32,7 +32,7 @@ const ModalEditProFile = ({ profile, setProfile, setShowModal }) => {
         photoURL: data.photoURL,
       });
 
-      await updateProfile(curentUser, { displayName: data.displayName });
+      updateProfile(curentUser, { displayName: data.displayName });
 
       setProfile(data);
       setUser({ ...curentUser, displayName: data.displayName });
@@ -40,13 +40,20 @@ const ModalEditProFile = ({ profile, setProfile, setShowModal }) => {
       setShowModal(false);
       toast.success("Updated profile success !");
     } catch (error) {
+      console.log(error);
       toast.error(error.message);
     }
   };
 
   return (
-    <div className="fixed w-full left-0 right-0 top-0 bottom-0 flex items-center justify-center modal-edit-profile px-3">
-      <div className="bg-white opacity-100 w-full pb-6">
+    <div
+      className="fixed w-full left-0 right-0 top-0 bottom-0 flex items-center justify-center modal-edit-profile px-3"
+      onClick={() => setShowModal(false)}
+    >
+      <div
+        className="bg-white opacity-100 w-full pb-6 max-w-[100%]"
+        onClick={(e) => e.stopPropagation()}
+      >
         <form onSubmit={changeProfile} className="px-3">
           <h1 className="w-full text-center mt-4 text-xl font-semibold">
             Edit profile

@@ -3,8 +3,8 @@ import "./loading.css";
 
 const Loading = () => {
   return (
-    <div className="ovelay">
-      <div className="square-loading"></div>
+    <div className="ovelay z-10">
+      <div className="dashed-loading"></div>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getProfile } from "../action/profileAction";
 
-export const useUsersInfo = (usersId, id) => {
+export const useUsersInfo = (usersId) => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState(false);
@@ -30,7 +30,7 @@ export const useUsersInfo = (usersId, id) => {
       setErr(true);
       setLoading(false);
     }
-  }, [id]);
+  }, []);
 
   return { users, loading, err };
 };

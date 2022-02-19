@@ -13,8 +13,8 @@ import { fetchComments } from "../action/postAction";
 import { updateDoc, doc } from "firebase/firestore";
 import { createDoc } from "../action/firebaseAction";
 import { getProfile } from "../action/profileAction";
-import PageNotFound from "./PageNotFound";
 import Title from "../components/Title";
+import Loading from "../global/Loading";
 
 const DetailPost = () => {
   const { id } = useParams();
@@ -22,7 +22,7 @@ const DetailPost = () => {
 
   const [postDetails, setPostDetails] = useState({});
   const curentUser = userState((state) => state.curentUser);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [loadingComment, setLoadingComment] = useState(false);
   const [comment, setComment] = useState("");
   const [commentList, setCommentList] = useState([]);
@@ -97,8 +97,10 @@ const DetailPost = () => {
       setComment("");
 
       setLoadingComment(false);
+
       window.scrollTo({
-        bottom: 0,
+        top: 0,
+        behavior: "smooth",
       });
     } catch (error) {
       setLoadingComment(false);
@@ -112,12 +114,7 @@ const DetailPost = () => {
       />
     );
 
-  if (loading)
-    return (
-      <div className="h-screen flex justify-center items-center">
-        <div className="dashed-loading"></div>
-      </div>
-    );
+  if (loading) return <Loading />;
 
   return (
     <div>

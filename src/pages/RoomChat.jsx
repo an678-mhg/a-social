@@ -1,12 +1,13 @@
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import React, { useEffect, useMemo, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { createDoc } from "../action/firebaseAction";
+import ChatHeader from "../components/ChatHeader";
 import LeftMess from "../components/LeftMess";
 import RightMess from "../components/RightMess";
 import { db } from "../config/firebase";
+import Loading from "../global/Loading";
 import useFireStore from "../hook/useFireStore";
-import { useUsersInfo } from "../hook/useUsersInfo";
 import userState from "../stored/userState";
 
 const RoomChat = () => {
@@ -40,6 +41,8 @@ const RoomChat = () => {
 
     updateDoc(doc(db, `rooms/${id}`), {
       lastMessage: mess,
+      status: "new",
+      uid: curentUser.uid,
     });
 
     setMess("");
@@ -54,32 +57,13 @@ const RoomChat = () => {
     []
   );
 
-  const { users } = useUsersInfo(roomInfo?.members, id);
-  const userRender = users.filter((p) => p.id !== curentUser.uid);
-  const { document } = useFireStore("messages", conditional);
+  const { document, loading } = useFireStore("messages", conditional);
 
   return (
-    <div className="px-3 bg-[#222] h-screen">
-      <div className="flex items-center justify-between py-3 fixed w-full left-0 right-0 px-3 top-0 border-b-2">
-        <div className="flex items-center">
-          <Link to="/chat" className="mr-4 block">
-            <i className="bx bx-arrow-back text-2xl text-white"></i>
-          </Link>
-          <div className="flex items-center">
-            <img
-              src={userRender[0]?.photoURL}
-              className="w-[40px] rounded-full object-cover"
-              alt=""
-            />
-            <p className="ml-4 text-white">{userRender[0]?.displayName}</p>
-          </div>
-        </div>
-        <div>
-          <i className="text-white tbx bx-info-circle text-2xl"></i>
-        </div>
-      </div>
+    <div className="px-3 bg-[#222] h-screen overflow-auto">
+      <ChatHeader roomInfo={roomInfo} />
 
-      <div className="pt-[100px] px-3">
+      <div className="pt-[100px] px-3 mb-[80px]">
         {document.length > 0 ? (
           document.map((p) =>
             p.userId === curentUser.uid ? (
@@ -89,7 +73,7 @@ const RoomChat = () => {
             )
           )
         ) : (
-          <div className="w-full text-white text-center">
+          <div className="w-full text-white text-center text-sm">
             No message recently
           </div>
         )}
@@ -97,7 +81,7 @@ const RoomChat = () => {
 
       <form
         onSubmit={handleAddMessage}
-        className="py-3 fixed w-full left-0 right-0 px-3 bottom-0 border-t-2 flex items-center justify-between"
+        className="py-3 fixed w-full left-0 right-0 px-3 bottom-0 border-t-2 flex items-center justify-between bg-[#222] z-10"
       >
         <button>
           <i className="bx bx-upload text-white text-2xl mr-3"></i>
@@ -112,6 +96,8 @@ const RoomChat = () => {
           <i className="bx bx-send text-white text-2xl ml-3"></i>
         </button>
       </form>
+
+      {loading && <Loading />}
     </div>
   );
 };

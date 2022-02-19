@@ -14,17 +14,12 @@ const ProfileTop = ({ profile, setProfile, setShowModal }) => {
 
   const handleCreateChatRooms = async (uid, userChat) => {
     setLoading(true);
-
-    const q = query(
-      collection(db, "rooms"),
-      where("members", "==", [uid, userChat])
-    );
-
+    const userArray = [uid, userChat].sort();
+    const q = query(collection(db, "rooms"), where("members", "==", userArray));
     const querySnap = await getDocs(q);
-
     if (querySnap.empty) {
       const res = await addDoc(collection(db, "rooms"), {
-        members: [uid, userChat],
+        members: [uid, userChat].sort(),
         lastMessage: "",
         create_at: Date.now(),
       });

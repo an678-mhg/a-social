@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { fetchMyPost } from "../action/postAction";
 import { getProfile } from "../action/profileAction";
 import ModalEditProFile from "../components/ModalEditProFile";
@@ -7,6 +7,7 @@ import PostList from "../components/PostList";
 import ProfileBottom from "../components/ProfileBottom";
 import ProfileTop from "../components/ProfileTop";
 import Title from "../components/Title";
+import Loading from "../global/Loading";
 import PageNotFound from "./PageNotFound";
 
 const Profile = () => {
@@ -15,13 +16,16 @@ const Profile = () => {
   const [profile, setProfile] = useState({});
   const [myPost, setMyPost] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     async function fetchProfile(id) {
       const data = await getProfile(id);
       setProfile(data);
+      setLoading(false);
     }
 
+    setLoading(true);
     fetchProfile(id);
   }, [id]);
 
@@ -58,6 +62,8 @@ const Profile = () => {
           profile={profile}
         />
       )}
+
+      {loading && <Loading />}
     </>
   );
 };
