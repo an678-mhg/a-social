@@ -1,28 +1,13 @@
-import { setDoc } from "firebase/firestore";
 import React, { useState } from "react";
 import { loginGoogleApi } from "../action/authAction";
-import { createDoc } from "../action/firebaseAction";
-import { db } from "../config/firebase";
 import Loading from "../global/Loading";
-import { doc } from "firebase/firestore";
 
 const LoginGoogleButton = () => {
   const [loading, setLoading] = useState(false);
 
   const handleLoginWithGoogle = async () => {
     setLoading(true);
-    const { _tokenResponse, user } = await loginGoogleApi();
-
-    if (_tokenResponse.isNewUser) {
-      const { displayName, email, photoURL, uid } = user;
-
-      await setDoc(doc(db, "users", uid), {
-        displayName,
-        email,
-        photoURL,
-        following: [],
-      });
-    }
+    await loginGoogleApi();
 
     setLoading(false);
   };

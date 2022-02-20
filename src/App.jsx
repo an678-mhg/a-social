@@ -7,16 +7,18 @@ import { useEffect } from "react";
 import userState from "./stored/userState";
 import postState from "./stored/postState";
 import themeStore from "./stored/themeStore";
-import { auth } from "./config/firebase";
+import { auth, db } from "./config/firebase";
 import PrivateRoute from "./components/PrivateRoute";
 import { fetchAllPosts } from "./action/firebaseAction";
 import DetailPost from "./pages/DetailPost";
 import ForgotPassword from "./pages/ForgotPassword";
 import useInnerWidth from "./hook/useInnerWidth";
 import RoomChat from "./pages/RoomChat";
+import Loading from "./global/Loading";
+import { setDoc, doc } from "firebase/firestore";
 
 function App() {
-  const { setUser } = userState((state) => state);
+  const { setUser, curentUser } = userState((state) => state);
   const { setPosts, sort } = postState((state) => state);
   const { theme } = themeStore((state) => state);
   const location = useLocation();
@@ -27,6 +29,13 @@ function App() {
     const unsub = onAuthStateChanged(auth, async (user) => {
       if (user) {
         setUser(user);
+        setDoc(doc(db, "users", user.uid), {
+          uid: user.uid,
+          email: user.email,
+          displayName: user.displayName,
+          photoURL: user.photoURL,
+          following: [],
+        });
         const posts = await fetchAllPosts(sort);
         setPosts(posts);
         return;
@@ -50,6 +59,8 @@ function App() {
         Devices with width greater than 500px. are not supported !
       </div>
     );
+
+  if (typeof curentUser === "undefined") return <Loading />;
 
   return (
     <div className={`app h-screen`} style={{ backgroundColor: theme.bg_color }}>

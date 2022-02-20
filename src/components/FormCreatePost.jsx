@@ -38,31 +38,39 @@ const FormCreatePost = () => {
 
     setLoading(true);
 
-    // Upload images in server
-    const url = await uploadImage(file, "images");
+    try {
+      // Upload images in server
+      const url = await uploadImage(file, "images");
 
-    // Tạo obj post data
-    const newPost = {
-      userId: curentUser.uid,
-      title: title,
-      image: url,
-      like: [],
-      comment: 0,
-      create_at: Date.now(),
-    };
+      // Tạo obj post data
+      const newPost = {
+        userId: curentUser.uid,
+        title: title,
+        image: url,
+        like: [],
+        comment: 0,
+        create_at: Date.now(),
+      };
 
-    // ghi post vào db
-    const res = await createDoc("posts", newPost);
+      // ghi post vào db
+      const res = await createDoc("posts", newPost);
 
-    // add post vào zustand
-    setPosts([res, ...posts]);
+      // add post vào zustand
+      setPosts([res, ...posts]);
 
-    // Reset form
-    setFile(null);
-    setPriviewImage(null);
-    setTitle("");
+      // Reset form
+      setFile(null);
+      setPriviewImage(null);
+      setTitle("");
 
-    setLoading(false);
+      setLoading(false);
+    } catch (error) {
+      toast.error(error.message);
+      setLoading(false);
+      setFile(null);
+      setPriviewImage(null);
+      setTitle("");
+    }
   };
 
   return (

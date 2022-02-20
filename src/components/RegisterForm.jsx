@@ -5,8 +5,6 @@ import { registerApi } from "../action/authAction";
 import Loading from "../global/Loading";
 import { validateRegister } from "../utils/validate";
 import ErrorValidate from "./ErrorValidate";
-import { setDoc, doc } from "firebase/firestore";
-import { db } from "../config/firebase";
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
@@ -26,17 +24,7 @@ const RegisterForm = () => {
 
     setLoading(true);
     try {
-      const res = await registerApi(formData);
-
-      const { displayName, email, photoURL, uid } = res.user;
-
-      await setDoc(doc(db, "users", uid), {
-        displayName,
-        email,
-        photoURL,
-        following: [],
-      });
-
+      await registerApi(formData);
       setLoading(false);
     } catch (error) {
       console.log(error);

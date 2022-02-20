@@ -34,7 +34,7 @@ const useFireStore = (table, conditional) => {
     return () => {
       unsubscribe();
     };
-  }, [collection, conditional]);
+  }, [table, conditional]);
 
   return { document, loading };
 };

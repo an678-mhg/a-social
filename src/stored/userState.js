@@ -1,7 +1,7 @@
 import create from "zustand";
 
 const useStore = create((set) => ({
-  curentUser: null,
+  curentUser: undefined,
   setUser: (newUser) =>
     set({
       curentUser: newUser,

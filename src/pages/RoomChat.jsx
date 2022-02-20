@@ -1,5 +1,5 @@
-import { doc, getDoc, updateDoc } from "firebase/firestore";
-import React, { useEffect, useMemo, useState } from "react";
+import { doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
+import React, { useEffect, useMemo, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { createDoc } from "../action/firebaseAction";
 import ChatHeader from "../components/ChatHeader";
@@ -15,6 +15,7 @@ const RoomChat = () => {
   const [roomInfo, setRoomsInfo] = useState({});
   const curentUser = userState((state) => state.curentUser);
   const [mess, setMess] = useState("");
+  const BottomScrollIntoView = useRef(null);
 
   useEffect(() => {
     async function getRoomInfo(id) {
@@ -41,7 +42,7 @@ const RoomChat = () => {
     createDoc("messages", {
       rooms: id,
       userId: curentUser.uid,
-      create_at: Date.now(),
+      create_at: serverTimestamp(),
       content: mess,
     });
 
@@ -52,7 +53,21 @@ const RoomChat = () => {
     });
 
     setMess("");
+
+    setTimeout(() => {
+      BottomScrollIntoView.current.scrollIntoView({
+        behavior: "smooth",
+      });
+    }, 100);
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      BottomScrollIntoView.current.scrollIntoView({
+        behavior: "smooth",
+      });
+    }, 300);
+  }, []);
 
   const conditional = useMemo(
     () => ({
@@ -69,7 +84,7 @@ const RoomChat = () => {
     <div className="px-3 bg-[#222] h-screen overflow-auto">
       <ChatHeader roomInfo={roomInfo} />
 
-      <div className="pt-[100px] px-3 mb-[80px]">
+      <div className="pt-[80px] px-3 pb-[70px]">
         {document.length > 0 ? (
           document.map((p) =>
             p.userId === curentUser.uid ? (
@@ -83,6 +98,8 @@ const RoomChat = () => {
             No message recently
           </div>
         )}
+
+        <div ref={BottomScrollIntoView}></div>
       </div>
 
       <form

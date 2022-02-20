@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Navigate,
   useLocation,
@@ -16,6 +16,7 @@ import { getProfile } from "../action/profileAction";
 import Title from "../components/Title";
 import Loading from "../global/Loading";
 import themeStore from "../stored/themeStore";
+import { toast } from "react-toastify";
 
 const DetailPost = () => {
   const { id } = useParams();
@@ -28,6 +29,7 @@ const DetailPost = () => {
   const [comment, setComment] = useState("");
   const [commentList, setCommentList] = useState([]);
   const [userInfo, setUserInfo] = useState({});
+  const BottomScrollIntoView = useRef();
   const theme = themeStore((state) => state.theme);
 
   useEffect(() => {
@@ -100,11 +102,13 @@ const DetailPost = () => {
 
       setLoadingComment(false);
 
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
+      setTimeout(() => {
+        BottomScrollIntoView.current.scrollIntoView({
+          behavior: "smooth",
+        });
+      }, 300);
     } catch (error) {
+      toast.error(error);
       setLoadingComment(false);
     }
   };
@@ -198,6 +202,8 @@ const DetailPost = () => {
       </>
 
       <CommentLIst commentList={commentList} />
+
+      <div ref={BottomScrollIntoView}></div>
     </div>
   );
 };

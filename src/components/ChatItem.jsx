@@ -5,7 +5,7 @@ import userState from "../stored/userState";
 import themeStore from "../stored/themeStore";
 
 const ChatItem = ({ data }) => {
-  const { users, loading } = useUsersInfo(data.members);
+  const { users, loading } = useUsersInfo(data?.members);
   const curentUser = userState((state) => state.curentUser);
   const theme = themeStore((state) => state.theme);
 

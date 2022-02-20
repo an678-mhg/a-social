@@ -30,7 +30,7 @@ export const useUsersInfo = (usersId) => {
       setErr(true);
       setLoading(false);
     }
-  }, []);
+  }, [usersId?.length]);
 
   return { users, loading, err };
 };

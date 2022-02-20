@@ -26,7 +26,7 @@ const ModalEditProFile = ({ profile, setProfile, setShowModal }) => {
     setLoading(true);
 
     try {
-      await setDoc(doc(db, `users/${data.id}`), {
+      setDoc(doc(db, `users/${data.id}`), {
         bio: data.bio,
         displayName: data.displayName,
         following: data.following,
@@ -34,7 +34,7 @@ const ModalEditProFile = ({ profile, setProfile, setShowModal }) => {
         photoURL: data.photoURL,
       });
 
-      updateProfile(curentUser, { displayName: data.displayName });
+      await updateProfile(curentUser, { displayName: data.displayName });
 
       setProfile(data);
       setUser({ ...curentUser, displayName: data.displayName });
@@ -43,7 +43,7 @@ const ModalEditProFile = ({ profile, setProfile, setShowModal }) => {
       toast.success("Updated profile success !");
     } catch (error) {
       console.log(error);
-      toast.error(error.message);
+      setLoading(false);
     }
   };
 
