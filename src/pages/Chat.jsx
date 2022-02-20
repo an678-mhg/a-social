@@ -5,6 +5,7 @@ import userState from "../stored/userState";
 import ChatItem from "../components/ChatItem";
 import ModalUser from "../components/ModalUser";
 import themeStore from "../stored/themeStore";
+import PageNotFound from "./PageNotFound";
 
 const Chat = () => {
   const curentUser = userState((state) => state.curentUser);
@@ -21,7 +22,9 @@ const Chat = () => {
     []
   );
 
-  const { document } = useFireStore("rooms", conditional);
+  const { document, error } = useFireStore("rooms", conditional);
+
+  if (error) return <PageNotFound />;
 
   return (
     <div className="mt-5">

@@ -3,13 +3,16 @@ import { Link } from "react-router-dom";
 import { useUsersInfo } from "../hook/useUsersInfo";
 import userState from "../stored/userState";
 import themeStore from "../stored/themeStore";
+import PageNotFound from "../pages/PageNotFound";
 
 const ChatItem = ({ data }) => {
-  const { users, loading } = useUsersInfo(data?.members);
+  const { users, loading, err } = useUsersInfo(data?.members);
   const curentUser = userState((state) => state.curentUser);
   const theme = themeStore((state) => state.theme);
 
   const userRender = users?.filter((p) => p.id !== curentUser.uid);
+
+  if (err) return <PageNotFound />;
 
   return (
     <Link

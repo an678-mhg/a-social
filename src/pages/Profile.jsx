@@ -44,7 +44,7 @@ const Profile = () => {
 
   return (
     <>
-      <Title title={profile.displayName} />
+      <Title title={profile?.displayName} />
       <div className="mt-4 py-6" style={{ backgroundColor: theme.bg_post }}>
         <ProfileTop
           setShowModal={setShowModal}
@@ -52,7 +52,7 @@ const Profile = () => {
           setProfile={setProfile}
         />
 
-        <ProfileBottom profile={profile} totalPost={myPost.length} />
+        <ProfileBottom profile={profile} totalPost={myPost?.length} />
       </div>
 
       <PostList posts={myPost} setPosts={setMyPost} />

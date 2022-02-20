@@ -4,6 +4,7 @@ import { Link, Navigate } from "react-router-dom";
 import useSearchParams from "../hook/useSearchParams";
 import userState from "../stored/userState";
 import themeStore from "../stored/themeStore";
+import Title from "../components/Title";
 
 const RegisterPage = () => {
   const curentUser = userState((state) => state.curentUser);
@@ -15,6 +16,7 @@ const RegisterPage = () => {
 
   return (
     <div className="px-3 h-screen flex items-center justify-center flex-col">
+      <Title title={"Register"} />
       <div
         className="flex items-center justify-center w-full text-4xl"
         style={{

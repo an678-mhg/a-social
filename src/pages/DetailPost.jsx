@@ -124,12 +124,15 @@ const DetailPost = () => {
 
   return (
     <div>
-      <Title title={"Post " + id} />
+      <Title title={"Detail Post"} />
       <>
         <div style={{ color: theme.text_color }}>
-          <div className="px-4 py-2 fixed top-0 w-full opacity-[0.5]">
+          <div className="px-4 py-2 fixed top-0 w-full">
             <button onClick={() => navigate("/")}>
-              <i className="text-2xl bx bx-arrow-back"></i>
+              <i
+                style={{ color: theme.text_color }}
+                className="text-2xl bx bx-arrow-back"
+              ></i>
             </button>
           </div>
           <img
@@ -183,7 +186,7 @@ const DetailPost = () => {
               color: theme.text_color,
             }}
             placeholder="Write comment here..."
-            className="rounded-full w-[80%] ml-4 px-6 py-1 outline-none"
+            className="rounded-full w-[80%] ml-4 p-1 outline-none"
             type={"text"}
             value={comment}
             onChange={(e) => setComment(e.target.value)}

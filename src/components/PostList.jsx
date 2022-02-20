@@ -5,7 +5,7 @@ import themeStore from "../stored/themeStore";
 const PostList = ({ posts, setPosts }) => {
   const theme = themeStore((state) => state.theme);
 
-  if (posts.length === 0)
+  if (posts?.length === 0)
     return (
       <div
         className="w-full p-4 mt-6"

@@ -1,8 +1,10 @@
 import React from "react";
+import Title from "../components/Title";
 
 const ForgotPassword = () => {
   return (
     <div className="h-screen flex items-center justify-center">
+      <Title title={"Forgot password"} />
       <form>
         <h1 className="text-2xl font-semibold">Forgot Password?</h1>
         <div className="flex">

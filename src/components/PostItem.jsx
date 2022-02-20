@@ -82,9 +82,9 @@ const PostItem = ({ data, posts, setPosts }) => {
                   to={`/edit/${data.id}?redirect=${encodeURIComponent(
                     location.pathname
                   )}`}
-                  className="ml-3 block"
+                  className="ml-2 block"
                 >
-                  <i className="text-xl text-blue-500 bx bx-edit-alt"></i>
+                  <i className="text-xl text-blue-500 bx bx-pencil"></i>
                 </Link>
               </>
             ) : null}

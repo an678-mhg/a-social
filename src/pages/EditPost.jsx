@@ -6,6 +6,7 @@ import { fetchPost } from "../action/postAction";
 import { db } from "../config/firebase";
 import { toast } from "react-toastify";
 import themeStore from "../stored/themeStore";
+import Title from "../components/Title";
 
 const EditPost = () => {
   const { id } = useParams();
@@ -55,6 +56,7 @@ const EditPost = () => {
       className="p-3 mt-4"
       style={{ backgroundColor: theme.bg_post }}
     >
+      <Title title={"Edit post"} />
       <textarea
         rows="4"
         ref={inputRef}

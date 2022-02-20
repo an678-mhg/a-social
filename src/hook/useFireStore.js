@@ -12,6 +12,7 @@ const useFireStore = (table, conditional) => {
   const { fieldName, operator, compareValue } = conditional;
   const [document, setDocument] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -21,22 +22,32 @@ const useFireStore = (table, conditional) => {
       orderBy("create_at", "asc")
     );
 
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const documents = querySnapshot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
+    const unsubscribe = onSnapshot(
+      q,
+      (querySnapshot) => {
+        const documents = querySnapshot.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
 
-      setDocument(documents);
-      setLoading(false);
-    });
+        setDocument(documents);
+        setLoading(false);
+        setError(false);
+      },
+      (error) => {
+        console.log(error);
+        setLoading(false);
+        setDocument(null);
+        setError(true);
+      }
+    );
 
     return () => {
       unsubscribe();
     };
   }, [table, conditional]);
 
-  return { document, loading };
+  return { document, loading, error };
 };
 
 export default useFireStore;

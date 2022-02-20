@@ -16,6 +16,7 @@ import useInnerWidth from "./hook/useInnerWidth";
 import RoomChat from "./pages/RoomChat";
 import Loading from "./global/Loading";
 import { setDoc, doc } from "firebase/firestore";
+import PageNotFound from "./pages/PageNotFound";
 
 function App() {
   const { setUser, curentUser } = userState((state) => state);
@@ -47,7 +48,7 @@ function App() {
     return () => {
       unsub();
     };
-  }, [sort]);
+  }, [sort, curentUser?.displayName]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -78,7 +79,7 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgot_password" element={<ForgotPassword />} />
         <Route path="/room/:id" element={<RoomChat />} />
-        <Route path="*" />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </div>
   );

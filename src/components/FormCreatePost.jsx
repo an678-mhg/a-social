@@ -5,6 +5,8 @@ import userState from "../stored/userState";
 import postState from "../stored/postState";
 import themeStore from "../stored/themeStore";
 import { toast } from "react-toastify";
+import { validateImage } from "../utils/validateImage";
+import { deleteObject } from "firebase/storage";
 
 const FormCreatePost = () => {
   const curentUser = userState((state) => state.curentUser);
@@ -38,10 +40,20 @@ const FormCreatePost = () => {
 
     setLoading(true);
 
-    try {
-      // Upload images in server
-      const url = await uploadImage(file, "images");
+    // Upload images in server
+    const { url, strRef } = await uploadImage(file, "images");
+    const result = await validateImage(url);
 
+    if (result?.output?.detections?.length > 0) {
+      setLoading(false);
+      setFile(null);
+      setPriviewImage(null);
+      setTitle("");
+      deleteObject(strRef);
+      return toast.error("The picture you posted has offensive content !!");
+    }
+
+    try {
       // Tạo obj post data
       const newPost = {
         userId: curentUser.uid,

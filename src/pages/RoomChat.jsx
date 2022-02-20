@@ -5,10 +5,12 @@ import { createDoc } from "../action/firebaseAction";
 import ChatHeader from "../components/ChatHeader";
 import LeftMess from "../components/LeftMess";
 import RightMess from "../components/RightMess";
+import Title from "../components/Title";
 import { db } from "../config/firebase";
 import Loading from "../global/Loading";
 import useFireStore from "../hook/useFireStore";
 import userState from "../stored/userState";
+import PageNotFound from "./PageNotFound";
 
 const RoomChat = () => {
   const { id } = useParams();
@@ -78,10 +80,13 @@ const RoomChat = () => {
     []
   );
 
-  const { document, loading } = useFireStore("messages", conditional);
+  const { document, loading, error } = useFireStore("messages", conditional);
+
+  if (error) return <PageNotFound />;
 
   return (
     <div className="px-3 bg-[#222] h-screen overflow-auto">
+      <Title title={"Chat Rooms"} />
       <ChatHeader roomInfo={roomInfo} />
 
       <div className="pt-[80px] px-3 pb-[70px]">

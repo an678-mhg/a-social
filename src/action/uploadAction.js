@@ -8,5 +8,5 @@ export const uploadImage = async (file, folder) => {
 
   const url = await getDownloadURL(strRef);
 
-  return url;
+  return { url, strRef };
 };

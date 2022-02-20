@@ -65,7 +65,7 @@ const RegisterForm = () => {
           required
           placeholder="Password..."
           className="w-full px-3 py-2 rounded-sm outline-none"
-          type="text"
+          type="password"
           value={formData.password}
           name="password"
           onChange={(e) =>
@@ -78,7 +78,7 @@ const RegisterForm = () => {
           required
           placeholder="Comfirm Password..."
           className="w-full px-3 py-2 rounded-sm outline-none"
-          type="text"
+          type="password"
           value={formData.confirm_pasword}
           name="confirm_pasword"
           onChange={(e) =>
