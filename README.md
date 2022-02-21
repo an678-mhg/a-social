@@ -2,7 +2,7 @@
 
 A social website
 
-### Live demo: [https://a-social-app.netlify.app/](https://a-social-app.netlify.app/)
+### Live demo: [https://a-social-app.vercel.app/](https://a-social-app.vercel.app/)
 
 ### Preview:
 
@@ -11,7 +11,7 @@ A social website
 ### Features:
 
 - Post: create, update, delete, like, comment
-- User: follow, login register with email, login with google, edit profile
+- User: follow, login register with email, login with google
 - Darkmode,
 - Realtime chat,
 
