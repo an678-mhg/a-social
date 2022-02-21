@@ -36,10 +36,14 @@ const UserItem = ({ data, setLoadingRooms }) => {
     >
       <img
         className="w-[40px] object-cover rounded-full"
-        src={data.photoURL}
+        src={data?.photoURL}
         alt=""
       />
-      <p className="ml-5">{data.displayName}</p>
+      <p className="ml-5">
+        {data?.displayName?.length > 20
+          ? data.displayName.slice(0, 20) + "..."
+          : data.displayName}
+      </p>
     </div>
   );
 };

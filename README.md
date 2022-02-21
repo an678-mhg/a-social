@@ -1,5 +1,7 @@
 # Asocial
 
+A social website
+
 ### Live demo: [https://a-social-app.netlify.app/](https://a-social-app.netlify.app/)
 
 ### Preview:

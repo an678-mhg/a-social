@@ -43,14 +43,13 @@ const ChatItem = ({ data }) => {
               className="text-md font-semibold"
               style={{ color: theme.text_color }}
             >
-              {userRender[0]?.displayName}
+              {userRender[0]?.displayName.length > 20
+                ? userRender[0]?.displayName.slice(0, 20) + "..."
+                : userRender[0]?.displayName}
             </p>
             <div className="flex items-center">
               {data.status === "new" && data.uid !== curentUser.uid ? (
-                <p
-                  className="text-xs font-medium mt-2 bg-red-500 mr-2 rounded-full w-[20px] h-[20px] flex items-center justify-center"
-                  style={{ color: theme.text_color }}
-                >
+                <p className="text-xs font-medium mt-2 bg-red-500 mr-2 rounded-full w-[20px] h-[20px] flex items-center justify-center text-white">
                   01
                 </p>
               ) : null}

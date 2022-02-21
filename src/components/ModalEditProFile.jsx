@@ -1,50 +1,48 @@
-import { updateProfile } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+// import { updateProfile } from "firebase/auth";
+// import { doc, setDoc, updateDoc } from "firebase/firestore";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { db } from "../config/firebase";
-import userState from "../stored/userState";
+// import { db } from "../config/firebase";
+// import userState from "../stored/userState";
 import themeStore from "../stored/themeStore";
 
 const ModalEditProFile = ({ profile, setProfile, setShowModal }) => {
   const [data, setData] = useState(profile);
   const [loading, setLoading] = useState(false);
-  const { curentUser, setUser } = userState((state) => state);
+  // const { curentUser, setUser } = userState((state) => state);
   const theme = themeStore((state) => state.theme);
 
-  const changeProfile = async (e) => {
+  const changeProfile = (e) => {
     e.preventDefault();
+    toast.warn("Chuc nang dang bao tri !");
 
-    if (
-      !data.displayName.trim() ||
-      !data.email.trim() ||
-      !data.bio.trim() ||
-      !data.bio.length > 133
-    )
-      return;
+    // if (
+    //   !data.displayName.trim() ||
+    //   !data.email.trim() ||
+    //   !data.bio.trim() ||
+    //   !data.bio.trim().length > 133
+    // )
+    //   return;
 
-    setLoading(true);
+    // setLoading(true);
 
-    try {
-      setDoc(doc(db, `users/${data.id}`), {
-        bio: data.bio,
-        displayName: data.displayName,
-        following: data.following,
-        email: data.email,
-        photoURL: data.photoURL,
-      });
+    // try {
+    //   updateDoc(doc(db, `users/${profile.uid}`), {
+    //     displayName: data.displayName,
+    //     bio: data.bio,
+    //   });
 
-      await updateProfile(curentUser, { displayName: data.displayName });
+    //   await updateProfile(curentUser, { displayName: data.displayName });
 
-      setProfile(data);
-      setUser({ ...curentUser, displayName: data.displayName });
-      setLoading(false);
-      setShowModal(false);
-      toast.success("Updated profile success !");
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-    }
+    //   setProfile(data);
+    //   setUser({ ...curentUser, displayName: data.displayName });
+    //   setLoading(false);
+    //   setShowModal(false);
+    //   toast.success("Updated profile success !");
+    // } catch (error) {
+    //   console.log(error);
+    //   setLoading(false);
+    // }
   };
 
   return (
