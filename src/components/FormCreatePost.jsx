@@ -19,6 +19,18 @@ const FormCreatePost = () => {
   const [previewImage, setPriviewImage] = useState("");
 
   const onChangeFile = (e) => {
+    const chooseFile = e.target.files[0];
+
+    const types = ["image/png", "image/jpeg", "image/gif"];
+
+    if (!types.includes(chooseFile.type)) {
+      return toast.error("The image type is png / jpeg / gif.");
+    }
+
+    if (chooseFile.size > 1024 * 1024) {
+      return toast.error("The largest image size is 1mb.");
+    }
+
     setFile(e.target.files[0]);
 
     const preview = URL.createObjectURL(e.target.files[0]);
