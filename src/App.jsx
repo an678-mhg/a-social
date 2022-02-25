@@ -1,22 +1,24 @@
 import { Routes, Route, useLocation } from "react-router-dom";
-import Home from "./pages/Home";
-import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
 import { onAuthStateChanged } from "firebase/auth";
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import userState from "./stored/userState";
 import postState from "./stored/postState";
 import themeStore from "./stored/themeStore";
 import { auth, db } from "./config/firebase";
 import PrivateRoute from "./components/PrivateRoute";
 import { fetchAllPosts } from "./action/firebaseAction";
-import DetailPost from "./pages/DetailPost";
-import ForgotPassword from "./pages/ForgotPassword";
 import useInnerWidth from "./hook/useInnerWidth";
-import RoomChat from "./pages/RoomChat";
 import Loading from "./global/Loading";
 import { setDoc, doc } from "firebase/firestore";
-import PageNotFound from "./pages/PageNotFound";
+import TopLoading from "./components/TopLoading";
+// Pages
+const PageNotFound = lazy(() => import("./pages/PageNotFound"));
+const Home = lazy(() => import("./pages/Home"));
+const LoginPage = lazy(() => import("./pages/LoginPage"));
+const RegisterPage = lazy(() => import("./pages/RegisterPage"));
+const RoomChat = lazy(() => import("./pages/RoomChat"));
+const DetailPost = lazy(() => import("./pages/DetailPost"));
+const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
 
 function App() {
   const { setUser, curentUser } = userState((state) => state);
@@ -65,22 +67,24 @@ function App() {
 
   return (
     <div className={`app h-screen`} style={{ backgroundColor: theme.bg_color }}>
-      <Routes>
-        <Route
-          path="/*"
-          element={
-            <PrivateRoute>
-              <Home />
-            </PrivateRoute>
-          }
-        />
-        <Route path="/post/:id" element={<DetailPost />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/forgot_password" element={<ForgotPassword />} />
-        <Route path="/room/:id" element={<RoomChat />} />
-        <Route path="*" element={<PageNotFound />} />
-      </Routes>
+      <Suspense fallback={<TopLoading />}>
+        <Routes>
+          <Route
+            path="/*"
+            element={
+              <PrivateRoute>
+                <Home />
+              </PrivateRoute>
+            }
+          />
+          <Route path="/post/:id" element={<DetailPost />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/forgot_password" element={<ForgotPassword />} />
+          <Route path="/room/:id" element={<RoomChat />} />
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+      </Suspense>
     </div>
   );
 }
