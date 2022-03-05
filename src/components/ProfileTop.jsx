@@ -125,7 +125,7 @@ const ProfileTop = ({ profile, setProfile, setShowModal }) => {
         </div>
 
         <p className="text-sm px-3" style={{ color: theme.text_color }}>
-          {profile.bio || "This is description profile person !"}
+          {currentUser.bio || "This is description profile person !"}
         </p>
       </div>
 

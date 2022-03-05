@@ -5,7 +5,7 @@ import userState from "../stored/userState";
 import { Link } from "react-router-dom";
 import themeStore from "../stored/themeStore";
 
-const ReactButton = ({ post, posts, setPosts }) => {
+const ReactButton = ({ post, posts, setPosts, userId }) => {
   const currentUser = userState((state) => state.curentUser);
   const theme = themeStore((state) => state.theme);
 

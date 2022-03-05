@@ -1,48 +1,42 @@
-// import { updateProfile } from "firebase/auth";
-// import { doc, setDoc, updateDoc } from "firebase/firestore";
+import { updateProfile } from "firebase/auth";
+import { doc, setDoc, updateDoc } from "firebase/firestore";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-// import { db } from "../config/firebase";
-// import userState from "../stored/userState";
+import { db } from "../config/firebase";
+import userState from "../stored/userState";
 import themeStore from "../stored/themeStore";
 
 const ModalEditProFile = ({ profile, setProfile, setShowModal }) => {
   const [data, setData] = useState(profile);
   const [loading, setLoading] = useState(false);
-  // const { curentUser, setUser } = userState((state) => state);
+  const { curentUser, setUser } = userState((state) => state);
   const theme = themeStore((state) => state.theme);
 
-  const changeProfile = (e) => {
+  const changeProfile = async (e) => {
     e.preventDefault();
-    toast.warn("Chuc nang dang bao tri !");
 
-    // if (
-    //   !data.displayName.trim() ||
-    //   !data.email.trim() ||
-    //   !data.bio.trim() ||
-    //   !data.bio.trim().length > 133
-    // )
-    //   return;
+    if (!data.displayName.trim()) return;
 
-    // setLoading(true);
+    setLoading(true);
 
-    // try {
-    //   updateDoc(doc(db, `users/${profile.uid}`), {
-    //     displayName: data.displayName,
-    //     bio: data.bio,
-    //   });
+    try {
+      updateDoc(doc(db, `users/${profile.uid}`), {
+        displayName: data.displayName,
+      });
 
-    //   await updateProfile(curentUser, { displayName: data.displayName });
+      await updateProfile(curentUser, {
+        displayName: data.displayName,
+      });
 
-    //   setProfile(data);
-    //   setUser({ ...curentUser, displayName: data.displayName });
-    //   setLoading(false);
-    //   setShowModal(false);
-    //   toast.success("Updated profile success !");
-    // } catch (error) {
-    //   console.log(error);
-    //   setLoading(false);
-    // }
+      setProfile(data);
+      setUser({ ...curentUser, displayName: data.displayName });
+      setLoading(false);
+      setShowModal(false);
+      toast.success("Updated profile success !");
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
   };
 
   return (
@@ -77,22 +71,7 @@ const ModalEditProFile = ({ profile, setProfile, setShowModal }) => {
               }}
             />
           </div>
-          <div className="w-full mt-4">
-            <label className="text-md mb-3 block">Bio</label>
-            <textarea
-              rows="4"
-              value={data.bio || ""}
-              onChange={(e) =>
-                setData({ ...data, [e.target.name]: e.target.value })
-              }
-              name="bio"
-              className="w-full rounded-sm p-2"
-              style={{
-                backgroundColor: theme.bg_color,
-                color: theme.text_color,
-              }}
-            />
-          </div>
+
           <div className="w-full text-center">
             <button
               disabled={loading}

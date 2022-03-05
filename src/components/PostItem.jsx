@@ -110,7 +110,12 @@ const PostItem = ({ data, posts, setPosts }) => {
       <Link to={`/post/${data.id}`}>
         <img className="object-cover w-full" alt="PostList" src={data?.image} />
       </Link>
-      <ReactButton post={data} posts={posts} setPosts={setPosts} />
+      <ReactButton
+        userId={userInfo?.uid}
+        post={data}
+        posts={posts}
+        setPosts={setPosts}
+      />
     </div>
   );
 };

@@ -60,27 +60,28 @@ const Header = () => {
             }`}
           ></i>
         </button>
+
         <div
-          className={`flex items-center justify-between px-1 py-1 rounded-full relative`}
+          className={`flex items-center justify-center px-1 py-1 rounded-full relative w-[35px] h-[35px]`}
           style={{ backgroundColor: theme.bg_post, color: theme.text_color }}
           onClick={() => setShowLogout(!showLogout)}
         >
           <img
-            className="w-[25px] object-cover rounded-full mr-1"
+            className="w-full h-full object-cover rounded-full"
             alt=""
             src={`${
               curentUser?.photoURL ||
               "https://genvita.vn/resources/avatar/1322e982-086b-44d2-ad10-87aaa3f0f0fc?width=119&height=119&mode=crop"
             }`}
           />
-          <p className="text-xs">@{curentUser?.displayName}</p>
+
           <div
             style={{
               backgroundColor: theme.bg_post,
               color: theme.text_color,
             }}
             onClick={logout}
-            className={`absolute w-full top-8 left-0 px-2 py-1 rounded-sm ${
+            className={`absolute mt-2 shadow-md top-8 left-[-32px] px-2 py-1 rounded-md ${
               showLogout ? "" : "hidden"
             }`}
           >

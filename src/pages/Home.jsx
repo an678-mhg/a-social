@@ -6,6 +6,7 @@ import Content from "../components/Content";
 import Chat from "./Chat";
 import Profile from "./Profile";
 import EditPost from "./EditPost";
+
 const Home = () => {
   return (
     <div className="px-3 mb-[80px]">
