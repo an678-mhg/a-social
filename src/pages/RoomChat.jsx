@@ -35,7 +35,7 @@ const RoomChat = () => {
     updateDoc(doc(db, `rooms/${id}`), {
       status: "old",
     });
-  }, []);
+  }, [id]);
 
   const handleAddMessage = async (e) => {
     e.preventDefault();
@@ -63,14 +63,6 @@ const RoomChat = () => {
     }, 100);
   };
 
-  useEffect(() => {
-    setTimeout(() => {
-      BottomScrollIntoView.current.scrollIntoView({
-        behavior: "smooth",
-      });
-    }, 300);
-  }, []);
-
   const conditional = useMemo(
     () => ({
       fieldName: "rooms",
@@ -82,7 +74,19 @@ const RoomChat = () => {
 
   const { document, loading, error } = useFireStore("messages", conditional);
 
+  useEffect(() => {
+    if (document.length > 10) {
+      setTimeout(() => {
+        BottomScrollIntoView.current.scrollIntoView({
+          behavior: "smooth",
+        });
+      }, 300);
+    }
+  }, [document?.length]);
+
   if (error) return <PageNotFound />;
+
+  console.log(document.length);
 
   return (
     <div className="px-3 bg-[#222] h-screen overflow-auto">
@@ -90,7 +94,7 @@ const RoomChat = () => {
       <ChatHeader roomInfo={roomInfo} />
 
       <div className="pt-[80px] px-3 pb-[70px]">
-        {document.length > 0 ? (
+        {document?.length > 0 ? (
           document.map((p) =>
             p.userId === curentUser.uid ? (
               <RightMess key={p.id} mess={p.content} />
@@ -124,7 +128,6 @@ const RoomChat = () => {
           <i className="bx bx-send text-white text-2xl ml-3"></i>
         </button>
       </form>
-
       {loading && <Loading />}
     </div>
   );

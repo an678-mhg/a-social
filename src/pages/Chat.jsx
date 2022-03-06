@@ -29,7 +29,7 @@ const Chat = () => {
   return (
     <div className="mt-5">
       <Title title={"Chat-App"} />
-      {document.length === 0 ? (
+      {document?.length === 0 ? (
         <div
           className="p-3 text-center"
           style={{ backgroundColor: theme.bg_post, color: theme.text_color }}
@@ -37,7 +37,7 @@ const Chat = () => {
           No message recently
         </div>
       ) : (
-        document.map((p) => <ChatItem data={p} key={p.id} />)
+        document?.map((p) => <ChatItem data={p} key={p.id} />)
       )}
 
       <div

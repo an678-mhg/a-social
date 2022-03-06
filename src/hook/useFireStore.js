@@ -19,7 +19,7 @@ const useFireStore = (table, conditional) => {
     const q = query(
       collection(db, table),
       where(fieldName, operator, compareValue),
-      orderBy("create_at", "asc")
+      orderBy("create_at")
     );
 
     const unsubscribe = onSnapshot(
